@@ -1,0 +1,39 @@
+<html dir="rtl">
+    <head></head>
+    <body>
+        <h1>برای دریافت لیست فیلم های موجود در api روی دکمه زیر کلیک کنید</h1>
+        <button onclick="getMovies()">دریافت لیست فیلم ها</button>
+        <p>این قابلیت با یک کد جاوااسکریپت در همین فایل html نوشته شده است</p>
+        
+        <ul id="movieList">
+            <li>لیست فعلا خالی میباشد</li>
+        </ul>
+        <hr>
+        <h3>سایر لینک های موجود</h3>
+        <ul>
+            <li>
+                <a href="/movie/list">دریافت لیست فیلم ها</a>
+            </li>
+            <li>
+                <a href="/movie/destroy/1">حذف یک فیلم با یک ایدی خاص</a>
+            </li>
+            <li>
+                <a href="/movie/detail/1">دریافت اطلاعات یک فیلم با ایدی خاص</a>
+            </li>
+        </ul>
+        
+        <script>
+            let movieList = document.getElementById('movieList')
+            function getMovies(){
+                movieList.innerHTML = ''
+                fetch('http://127.0.0.1:8000/movie/list/')
+                .then(res => res.json())
+                .then((data) => {
+                    for (const movie of data){
+                        movieList.innerHTML += `<li>${movie.title}</li>`
+                    }
+                })
+            }
+        </script>
+    </body>
+</html>
