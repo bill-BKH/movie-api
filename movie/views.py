@@ -1,11 +1,11 @@
 from django.shortcuts import render
-from .models import Movie
+from .models import Movie,Genre
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework.generics import ListCreateAPIView,ListAPIView,DestroyAPIView,RetrieveAPIView
+from rest_framework.generics import ListCreateAPIView,ListAPIView,DestroyAPIView,RetrieveUpdateDestroyAPIView
 from django.views.decorators.csrf import csrf_exempt
 
-from .serializers import MovieSerializer, OneMovieSerializer
+from .serializers import MovieSerializer, OneMovieSerializer,GenreSerializer
 
 # ---------------- function based views ----------------
 def movies(request):
@@ -20,21 +20,23 @@ def movie_list(request):
 
 
 # ---------------- class based views ----------------
-class movie_list_2(ListCreateAPIView):
+class MovieListAPIView(ListCreateAPIView):
     serializer_class = MovieSerializer
     queryset = Movie.objects.all()
 
 
-class movie_detail(RetrieveAPIView):
+class MovieDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Movie.objects.all()
     serializer_class = OneMovieSerializer
 
-
-class movie_delete(DestroyAPIView):
-    queryset = Movie.objects.all()
     
-    @csrf_exempt
-    def delete(self, request, *args, **kwargs):
-        instance = self.get_object()
-        instance.delete()
-        return super().delete(request, *args, **kwargs)
+    # @csrf_exempt
+    # def delete(self, request, *args, **kwargs):
+    #     instance = self.get_object()
+    #     instance.delete()
+    #     return super().delete(request, *args, **kwargs)
+
+
+class GenreListAPIView(ListAPIView):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
