@@ -2,40 +2,45 @@ from django.shortcuts import render
 from .models import Movie,Genre
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework.generics import ListCreateAPIView,ListAPIView,DestroyAPIView,RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListAPIView,DestroyAPIView,RetrieveAPIView,UpdateAPIView,CreateAPIView
 from django.views.decorators.csrf import csrf_exempt
-
 from .serializers import MovieSerializer, OneMovieSerializer,GenreSerializer
-
+from rest_framework.permissions import IsAuthenticated,IsAdminUser,AllowAny
+from permissions import IsOwnerOrReadOnly, IsSuperUser
 # ---------------- function based views ----------------
 def movies(request):
     return render(request,'movie.html')
 
-
-@api_view()
-def movie_list(request):
-    movies = Movie.objects.all()
-    serializer = MovieSerializer(movies, many=True)
-    return Response(serializer.data)
-
-
 # ---------------- class based views ----------------
-class MovieListAPIView(ListCreateAPIView):
+class MovieListAPIView(ListAPIView):
     serializer_class = MovieSerializer
     queryset = Movie.objects.all()
 
-
-class MovieDetailAPIView(RetrieveUpdateDestroyAPIView):
+class MovieCreateAPIView(CreateAPIView):
+    serializer_class = MovieSerializer
+    queryset = Movie.objects.all()
+    permission_classes = [IsAdminUser]
+    
+class MovieDetailAPIView(RetrieveAPIView):
     queryset = Movie.objects.all()
     serializer_class = OneMovieSerializer
+    permission_classes = [AllowAny]
 
-    
-    # @csrf_exempt
-    # def delete(self, request, *args, **kwargs):
-    #     instance = self.get_object()
-    #     instance.delete()
-    #     return super().delete(request, *args, **kwargs)
 
+
+
+
+class MovieDeleteAPIView(DestroyAPIView):
+    queryset = Movie.objects.all()
+    serializer_class = OneMovieSerializer
+    permission_classes = [IsSuperUser]
+
+
+
+class MovieUpdateAPIView(UpdateAPIView):
+    queryset = Movie.objects.all()
+    serializer_class = OneMovieSerializer
+    permission_classes = [IsOwnerOrReadOnly]
 
 class GenreListAPIView(ListAPIView):
     queryset = Genre.objects.all()
