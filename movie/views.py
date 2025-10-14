@@ -13,7 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .serializers import MovieSerializer, OneMovieSerializer, GenreSerializer
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from .permissions import IsOwnerOrReadOnly, IsSuperUser
-
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 # ---------------- function based views ----------------
 def movies(request):
@@ -57,3 +57,4 @@ class GenreListAPIView(ListAPIView):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
     permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
