@@ -14,6 +14,7 @@ from .serializers import MovieSerializer, OneMovieSerializer, GenreSerializer
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from .permissions import IsOwnerOrReadOnly, IsSuperUser
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from .pagination import SmallPagination
 
 # ---------------- function based views ----------------
 def movies(request):
@@ -25,9 +26,16 @@ def movies(request):
 # ---------------- class based views ----------------
 class MovieListAPIView(ListAPIView):
     serializer_class = MovieSerializer
-    queryset = Movie.objects.all()
     # permission_classes = [IsAuthenticated]
-
+    pagination_class = SmallPagination
+    
+    def get_queryset(self):
+        queryset = Movie.objects.all()
+        genre = self.request.query_params.get('genre')
+        if genre is not None:
+            queryset = queryset.filter(geners__title=genre)
+        return queryset
+    
 
 class MovieCreateAPIView(CreateAPIView):
     serializer_class = MovieSerializer
@@ -56,5 +64,5 @@ class MovieUpdateAPIView(UpdateAPIView):
 class GenreListAPIView(ListAPIView):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated]
+    # authentication_classes = [JWTAuthentication]
