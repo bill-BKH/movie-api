@@ -15,6 +15,9 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from .permissions import IsOwnerOrReadOnly, IsSuperUser
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .pagination import SmallPagination
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import MovieFilter
+from rest_framework.filters import SearchFilter,OrderingFilter
 
 # ---------------- function based views ----------------
 def movies(request):
@@ -25,17 +28,15 @@ def movies(request):
 
 # ---------------- class based views ----------------
 class MovieListAPIView(ListAPIView):
-    serializer_class = MovieSerializer
+    queryset = Movie.objects.all()
     # permission_classes = [IsAuthenticated]
-    pagination_class = SmallPagination
-    
-    def get_queryset(self):
-        queryset = Movie.objects.all()
-        genre = self.request.query_params.get('genre')
-        if genre is not None:
-            queryset = queryset.filter(geners__title=genre)
-        return queryset
-    
+    serializer_class = MovieSerializer
+    # pagination_class = SmallPagination
+    filter_backends = [DjangoFilterBackend,SearchFilter,OrderingFilter]
+    filterset_class = MovieFilter
+    search_fields = ['title','story'] 
+    ordering_fields = ['rating']
+    ordering = ['-year']
 
 class MovieCreateAPIView(CreateAPIView):
     serializer_class = MovieSerializer
