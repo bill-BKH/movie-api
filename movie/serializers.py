@@ -7,12 +7,18 @@ class GenreSerializer(serializers.ModelSerializer):
         fields = ['title']
 
 class MovieSerializer(serializers.ModelSerializer):
-    geners = GenreSerializer()
+    # geners = GenreSerializer()
     class Meta:
         model = Movie
         # fields = ['id','title','year']
         fields = "__all__"
         # exclude = ['year']
+        
+        
+    def validate_year(self, value):
+        if int(value) < 1000 or int(value) > 3000:
+            raise serializers.ValidationError("year is not correct")
+        return value
 
 
 class OneMovieSerializer(serializers.ModelSerializer):

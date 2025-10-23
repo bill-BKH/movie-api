@@ -41,7 +41,7 @@ class MovieListAPIView(ListAPIView):
 class MovieCreateAPIView(CreateAPIView):
     serializer_class = MovieSerializer
     queryset = Movie.objects.all()
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
 
 class MovieDetailAPIView(RetrieveAPIView):
