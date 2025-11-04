@@ -7,15 +7,15 @@ function Card(props) {
   const makeRating = (rating) => {
     if (rating < 3) {
       return (
-        <span class="badge rounded-pill text-bg-danger">{props.rating}</span>
+        <span className="badge rounded-pill text-bg-danger">{props.rating}</span>
       );
     } else if (rating < 7) {
       return (
-        <span class="badge rounded-pill text-bg-warning">{props.rating}</span>
+        <span className="badge rounded-pill text-bg-warning">{props.rating}</span>
       );
     } else if (rating > 7) {
       return (
-        <span class="badge rounded-pill text-bg-success">{props.rating}</span>
+        <span className="badge rounded-pill text-bg-success">{props.rating}</span>
       );
     }
   };
