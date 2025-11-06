@@ -14,11 +14,7 @@ function Like(props) {
 
   return (
     <>
-      {like ? (
-        <i onClick={changeLike} className="bi bi-heart-fill text-danger"></i>
-      ) : (
-        <i onClick={changeLike} className="bi bi-heart-fill"></i>
-      )}
+        <i onClick={changeLike} className={like?"bi bi-heart-fill text-danger":"bi bi-heart-fill"}></i>
     </>
   );
 }
