@@ -1,11 +1,11 @@
 import { useRef } from "react";
 
-function Input() {
-  const addFood = () => {
-    // console.log(inputBox.current.value);
-    
-  };
+function Input(props) {
   const inputBox = useRef(null);
+
+  const handleClick = ()=>{
+    props.onClick(inputBox.current.value) 
+  }
 
   return (
     <>
@@ -19,7 +19,7 @@ function Input() {
           aria-describedby="button-addon1"
         ></input>
         <button
-          onClick={addFood}
+          onClick={handleClick}
           className="btn btn-primary"
           type="button"
           id="button-addon1"

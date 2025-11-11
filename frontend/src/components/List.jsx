@@ -5,7 +5,7 @@ function List(props) {
     <>
       <ul className="list-group">
         {props.names.map((item, index) => (
-          <ListItem key={index} item={item}/>
+          <ListItem onRemove={props.onRemove} key={index} item={item}/>
         ))}
       </ul>
     </>

@@ -2,8 +2,6 @@ import { useState } from "react";
 
 function ListItem(props) {
   const [checked, setChecked] = useState(false);
-  const [visable,setVisable] = useState(true)
-
   const handleChecked = () => {
     // if (checked == true){
     //     setChecked(false)
@@ -13,11 +11,9 @@ function ListItem(props) {
     setChecked(!checked);
   };
 
-  const handleRemove = () => {
-    setVisable(false)
-  };
-
-  if (visable == true){
+    const handleRemove = ()=>{
+      props.onRemove(props.item)
+    }
       return (
         <>
           <li className="d-flex justify-content-between list-group-item">
@@ -35,7 +31,6 @@ function ListItem(props) {
           </li>
         </>
       );
-  }
 }
 
 export default ListItem;
