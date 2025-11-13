@@ -1,20 +1,29 @@
 import Card from "./Card";
+import { useEffect, useState } from "react";
 
 function PopularMovie() {
-  
+  const [movieList, setMovieList] = useState([]);
+
+ function getMovies() {
+    fetch("http://127.0.0.1:8000/movie/list/")
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data);
+        setMovieList(data);
+      });
+  }
+
+  useEffect(getMovies, []);
+
+
   return (
     <div className="row">
       <div className="col-3">
-        <Card title="jaki chan" descriptoin="movie" rating='9'></Card>
-      </div>
-      <div className="col-3">
-        <Card title="spiderman" descriptoin="movie" rating='6'></Card>
-      </div>
-      <div className="col-3">
-        <Card title="batman" descriptoin="movie" rating='10'></Card>
-      </div>
-      <div className="col-3">
-        <Card title="aquaman" descriptoin="movie" rating='1'></Card>
+        <h1>{movieList}</h1>
+        {/* {movieList.map((movie)=>{
+          <Card title={movie.title} descriptoin={movie.story} rating={movie.rating}></Card>
+        })
+        } */}
       </div>
     </div>
   );
