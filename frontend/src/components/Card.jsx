@@ -7,31 +7,35 @@ function Card(props) {
   const makeRating = (rating) => {
     if (rating < 3) {
       return (
-        <span className="badge rounded-pill text-bg-danger">{props.rating}</span>
+        <span className="badge rounded-pill text-bg-danger">
+          {props.rating}
+        </span>
       );
     } else if (rating < 7) {
       return (
-        <span className="badge rounded-pill text-bg-warning">{props.rating}</span>
+        <span className="badge rounded-pill text-bg-warning">
+          {props.rating}
+        </span>
       );
     } else if (rating > 7) {
       return (
-        <span className="badge rounded-pill text-bg-success">{props.rating}</span>
+        <span className="badge rounded-pill text-bg-success">
+          {props.rating}
+        </span>
       );
     }
   };
 
   return (
     <div className="card">
-      <img src={panter} className="card-img-top" alt="..." />
+      <img src={props.image} className="card-img-top" alt="..." />
       <div className="card-body">
-        <h5 className="card-title">
+        <h5 className="w-title">
           {props.title} {makeRating(props.rating)}
           {/* <span className="overline">{props.title}</span> */}
         </h5>
         <p className="card-text">{props.descriptoin}</p>
-        <button className="btn btn-primary">
-          {btnText}
-        </button>
+        <button className="btn btn-primary">{btnText}</button>
       </div>
     </div>
   );
